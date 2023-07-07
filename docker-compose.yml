@@ -1,0 +1,10 @@
+version: "3"
+services:
+  application:
+    build: container
+    image: naruhito/xrdp-proxy:latest
+    container_name: xrdp-proxy
+    hostname: xrdp-proxy
+    restart: always
+    ports:
+      - "3389:3389"
