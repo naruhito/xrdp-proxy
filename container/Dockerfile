@@ -37,7 +37,9 @@ RUN git clone https://github.com/neutrinolabs/xrdp.git /tmp/xrdp \
   && cd /tmp/xrdp \
   && git checkout b26ca93 \
   && ./bootstrap \
-  && PKG_CONFIG_PATH=/opt/xrdp/usr/local/lib/pkgconfig ./configure --enable-neutrinordp \
+  && PKG_CONFIG_PATH=/opt/xrdp/usr/local/lib/pkgconfig \
+     LDFLAGS="-L/opt/xrdp/usr/local/lib/freerdp -L/opt/xrdp/usr/local/lib" \
+     ./configure --enable-neutrinordp \
   && make \
   && make DESTDIR=/opt/xrdp install
 
