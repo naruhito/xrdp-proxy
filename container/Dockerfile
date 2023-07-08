@@ -1,3 +1,5 @@
+# Builder IMAGE
+# ==================
 FROM ubuntu:22.04 as builder
 
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt -y install \
@@ -41,8 +43,25 @@ RUN mkdir /opt/xrdp \
   && cd /tmp/NeutrinoRDP && make DESTDIR=/opt/xrdp install \
   && cd /tmp/xrdp && make DESTDIR=/opt/xrdp install
 
-# runtime image
+
+# Runtime IMAGE
+# ==================
 FROM ubuntu:22.04
+
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt -y install \
+  curl \
+  less \
+  nano \
+  net-tools \
+  sudo \
+  supervisor\ 
+  vim \
+  && apt clean && rm -rf /var/lib/apt/lists/*
+
 COPY --from=builder /opt/xrdp/ /
 RUN ldconfig
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+
+COPY bin/* /usr/local/bin/
+RUN chmod +x /usr/local/bin/*
+COPY supervisor/* /etc/supervisor/conf.d/
+ENTRYPOINT ["entrypoint.bash"]
