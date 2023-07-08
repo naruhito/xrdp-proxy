@@ -44,4 +44,5 @@ RUN mkdir /opt/xrdp \
 # runtime image
 FROM ubuntu:22.04
 COPY --from=builder /opt/xrdp/ /
+RUN ldconfig
 ENTRYPOINT ["tail", "-f", "/dev/null"]
