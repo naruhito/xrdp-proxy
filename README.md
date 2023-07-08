@@ -3,7 +3,6 @@
 ## References
 
 - [NeutrinoRDP proxy module for xrdp](https://github.com/neutrinolabs/xrdp/wiki/NeutrinoRDP-proxy-module-for-xrdp)
-    - xrdp with `--enable-neutrinordp` option depends on NeutrinoRDP.
-
 - [NeutrinoRDP Compilation Guide](https://github.com/neutrinolabs/NeutrinoRDP/wiki/Compilation)
-    - A fork of freerdp client v1.0.1
+- [GitHub TOMATO-ONE xrdp-proxy](https://github.com/TOMATO-ONE/xrdp-proxy)
+- [xrdp でRDP Proxy ゲートウェイ を作る話(4)　〜設定編〜](https://qiita.com/JUNKER_TOMATO/items/51cbff0fcc8fd6c792b1)
