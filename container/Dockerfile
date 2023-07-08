@@ -53,7 +53,6 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt -y install \
   less \
   nano \
   net-tools \
-  sudo \
   supervisor\ 
   vim \
   && apt clean && rm -rf /var/lib/apt/lists/*
