@@ -37,8 +37,8 @@ RUN git clone https://github.com/neutrinolabs/xrdp.git /tmp/xrdp \
   && make install
 
 # packaging
-RUN mkdir /opt/xrdp
-  && cd /tmp/NeutrinoRDP && make DESTDIR=/opt/xrdp install
+RUN mkdir /opt/xrdp \
+  && cd /tmp/NeutrinoRDP && make DESTDIR=/opt/xrdp install \
   && cd /tmp/xrdp && make DESTDIR=/opt/xrdp install
 
 # runtime image
