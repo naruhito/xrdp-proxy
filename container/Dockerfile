@@ -19,45 +19,29 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt -y install \
   pkg-config \
   zlib1g-dev
 
-RUN mkdir -p /opt/xrdp
-
 # NeutrinoRDP
 RUN git clone https://github.com/neutrinolabs/NeutrinoRDP.git /tmp/NeutrinoRDP \
   && cd /tmp/NeutrinoRDP \
   && git checkout 5021122 \
   && cmake -DCMAKE_BUILD_TYPE=Debug -DWITH_SSE2=ON \
   && make \
-  && make DESTDIR=/opt/xrdp install
+  && make install
 
-# RUN ln -s /opt/xrdp/usr/local/include/freerdp /usr/local/include/ \
-#   && echo /opt/xrdp/usr/local/lib >> /etc/ld.so.conf.d/neutrinordp.conf \
-#   && echo /opt/xrdp/usr/local/lib/freerdp >> /etc/ld.so.conf.d/neutrinordp.conf \
-#   && ldconfig
+# xrdp
+RUN git clone https://github.com/neutrinolabs/xrdp.git /tmp/xrdp \
+  && cd /tmp/xrdp \
+  && git checkout b26ca93 \
+  && ./bootstrap \
+  && ./configure --enable-neutrinordp \
+  && make \
+  && make install
 
-# # xrdp
-# RUN git clone https://github.com/neutrinolabs/xrdp.git /tmp/xrdp \
-#   && cd /tmp/xrdp \
-#   && git checkout b26ca93 \
-#   && ./bootstrap \
-#   && PKG_CONFIG_PATH=/opt/xrdp/usr/local/lib/pkgconfig \
-#      LDFLAGS="-L/opt/xrdp/usr/local/lib/freerdp -L/opt/xrdp/usr/local/lib" \
-#      ./configure --enable-neutrinordp \
-#   && make \
-#   && make DESTDIR=/opt/xrdp install
+# packaging
+RUN mkdir /opt/xrdp
+  && cd /tmp/NeutrinoRDP && make DESTDIR=/opt/xrdp install
+  && cd /tmp/xrdp && make DESTDIR=/opt/xrdp install
 
-# RUN echo /opt/xrdp/usr/local/lib/xrdp >> /etc/ld.so.conf.d/neutrinordp.conf \
-#   && ldconfig
-
-
-# FROM ubuntu:22.04
-# COPY --from=builder /opt/xrdp /opt/xrdp
-
-# RUN cp -r /opt/xrdp/etc/* /etc/ \
-#   && ln -s /opt/xrdp/usr/local/share/xrdp /usr/local/share/ \
-#   && ln -s /opt/xrdp/usr/local/share/freerdp /usr/local/share/ \
-#   && echo /opt/xrdp/usr/local/lib >> /etc/ld.so.conf.d/neutrinordp.conf \
-#   && echo /opt/xrdp/usr/local/lib/freerdp >> /etc/ld.so.conf.d/neutrinordp.conf \
-#   && echo /opt/xrdp/usr/local/lib/xrdp >> /etc/ld.so.conf.d/neutrinordp.conf \
-#   && ldconfig
-
+# runtime image
+FROM ubuntu:22.04
+COPY --from=builder /opt/xrdp/ /
 ENTRYPOINT ["tail", "-f", "/dev/null"]
