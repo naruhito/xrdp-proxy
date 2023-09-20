@@ -30,9 +30,9 @@ RUN git clone https://github.com/neutrinolabs/NeutrinoRDP.git /tmp/NeutrinoRDP \
   && make install
 
 # xrdp
-RUN git clone https://github.com/neutrinolabs/xrdp.git /tmp/xrdp \
+RUN git clone https://github.com/naruhito/xrdp.git /tmp/xrdp \
   && cd /tmp/xrdp \
-  && git checkout b26ca93 \
+  && git checkout e3bcff9 \
   && ./bootstrap \
   && ./configure --enable-neutrinordp \
   && make \
