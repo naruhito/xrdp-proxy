@@ -32,7 +32,7 @@ RUN git clone https://github.com/neutrinolabs/NeutrinoRDP.git /tmp/NeutrinoRDP \
 # xrdp
 RUN git clone https://github.com/naruhito/xrdp.git /tmp/xrdp \
   && cd /tmp/xrdp \
-  && git checkout e3bcff9 \
+  && git checkout df6f5c1 \
   && ./bootstrap \
   && ./configure --enable-neutrinordp \
   && make \
@@ -53,7 +53,7 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt -y install \
   less \
   nano \
   net-tools \
-  supervisor\ 
+  supervisor \
   vim \
   && apt clean && rm -rf /var/lib/apt/lists/*
 
